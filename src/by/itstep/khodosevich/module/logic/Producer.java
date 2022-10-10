@@ -19,13 +19,13 @@ public class Producer implements Runnable{
     public void run() {
         int product = 0;
         while (running){
-            product++;
-            market.sendProduct(product);
-            try{
-                TimeUnit.MILLISECONDS.sleep(200);
-            } catch (InterruptedException e){
-                System.out.println(e);
+            if(market.getEmpty()) {
+                market.sendProduct(product);
+                market.setEmpty(false);
+            } else {
+                product++;
             }
+
         }
     }
 

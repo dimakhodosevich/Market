@@ -18,15 +18,13 @@ public class Consumer implements Runnable {
     @Override
     public void run() {
         while (running) {
-            market.getProduct();
-            try{
-                TimeUnit.MILLISECONDS.sleep(200);
-            } catch (InterruptedException e){
-                System.out.println(e);
+            if (!market.getEmpty()) {
+                market.getProduct();
+                market.setEmpty(true);
             }
         }
-
     }
+
 
     public void stop() {
         running = false;
